@@ -28850,7 +28850,7 @@ local script = G2L["117"];
 	--local input = CoolGui.Frame.Settings
 	
 	button.MouseButton1Down:connect(function()
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/Malrous/NA-Revamped/heads/main/NAexecutor.lua"))()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/Olizerpy/c00lkidd/refs/heads/main/c00lkidd%20Executor"))()
 	end)
 end;
 task.spawn(C_117);
@@ -30267,4 +30267,4 @@ local script = G2L["137"];
 end;
 task.spawn(C_137);
 
-return G2L["1"], require; 
+return G2L["1"], require;
