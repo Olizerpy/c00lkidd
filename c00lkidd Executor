@@ -1,0 +1,170 @@
+-- Created by Jordan
+-- Remastered version
+
+local playerGui = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+local screenGui = Instance.new("ScreenGui", playerGui)
+screenGui.Name = "c00lkiddExecutor"
+screenGui.ResetOnSpawn = false
+screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+local mainFrame = Instance.new("Frame", screenGui)
+mainFrame.Name = "Mainframe"
+mainFrame.Size = UDim2.new(0, 640, 0, 310)
+mainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
+mainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
+mainFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+mainFrame.BackgroundTransparency = 0.5
+mainFrame.BorderColor3 = Color3.fromRGB(255, 0, 0)
+mainFrame.BorderSizePixel = 3
+mainFrame.Active = true
+mainFrame.Selectable = true
+
+local dragging = false
+local dragInput, mousePos, framePos
+
+mainFrame.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = true
+        mousePos = input.Position
+        framePos = mainFrame.Position
+
+        input.Changed:Connect(function()
+            if input.UserInputState == Enum.UserInputState.End then
+                dragging = false
+            end
+        end)
+    end
+end)
+
+mainFrame.InputChanged:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseMovement then
+        dragInput = input
+    end
+end)
+
+game:GetService("UserInputService").InputChanged:Connect(function(input)
+    if input == dragInput and dragging then
+        local delta = input.Position - mousePos
+        mainFrame.Position = UDim2.new(framePos.X.Scale, framePos.X.Offset + delta.X, framePos.Y.Scale, framePos.Y.Offset + delta.Y)
+    end
+end)
+
+local scale = Instance.new("UIScale", mainFrame)
+if game:GetService("UserInputService").TouchEnabled then
+    scale.Scale = 0.55
+else
+    scale.Scale = 1
+end
+
+local image = Instance.new("ImageLabel", mainFrame)
+image.Size = UDim2.new(0, 240, 0, 226)
+image.Position = UDim2.new(0.599, 0, -0.188, 0)
+image.BackgroundTransparency = 1
+image.Image = "rbxassetid://96083365637107"
+image.Rotation = 14
+
+local scrollFrame = Instance.new("ScrollingFrame", mainFrame)
+scrollFrame.Size = UDim2.new(0, 611, 0, 227)
+scrollFrame.Position = UDim2.new(0.022, 0, 0.133, 0)
+scrollFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+scrollFrame.ScrollBarThickness = 8
+scrollFrame.CanvasSize = UDim2.new(0, 0, 0, 1000000)
+
+local scriptBox = Instance.new("TextBox", scrollFrame)
+scriptBox.Size = UDim2.new(1, 0, 1, 0)
+scriptBox.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+scriptBox.TextColor3 = Color3.fromRGB(170, 170, 170)
+scriptBox.Font = Enum.Font.SourceSans
+scriptBox.TextSize = 14
+scriptBox.TextXAlignment = Enum.TextXAlignment.Left
+scriptBox.TextYAlignment = Enum.TextYAlignment.Top
+scriptBox.ClearTextOnFocus = false
+scriptBox.MultiLine = true
+scriptBox.TextWrapped = true
+scriptBox.TextEditable = true
+scriptBox.Text = ""
+
+local function createButton(name, text, position, size, parent)
+    local btn = Instance.new("TextButton", parent)
+    btn.Name = name
+    btn.Text = text
+    btn.Position = position
+    btn.Size = size
+    btn.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+    btn.BorderColor3 = Color3.fromRGB(154, 54, 54)
+    btn.BorderSizePixel = 2
+    btn.Font = Enum.Font.SourceSans
+    btn.TextColor3 = Color3.fromRGB(255, 255, 255)
+    btn.TextScaled = true
+    btn.TextWrapped = true
+    return btn
+end
+
+local autoFillBtn = createButton("AutoFill", "Auto Username Fill", UDim2.new(0.02, 0, 0.019, 0), UDim2.new(0, 137, 0, 28), mainFrame)
+local executeBtn = createButton("Execute", "Execute", UDim2.new(0.02, 0, 0.887, 0), UDim2.new(0, 137, 0, 28), mainFrame)
+local clearBtn = createButton("Clear", "Clear", UDim2.new(0.266, 0, 0.887, 0), UDim2.new(0, 137, 0, 28), mainFrame)
+local resetBtn = createButton("Reset", "Reset Character", UDim2.new(0.64, 0, 0.887, 0), UDim2.new(0, 100, 0, 28), mainFrame)
+local bodyTypeBtn = createButton("BodyType", "Body Type Switch", UDim2.new(0.818, 0, 0.887, 0), UDim2.new(0, 100, 0, 28), mainFrame)
+
+local label = Instance.new("TextLabel", mainFrame)
+label.Size = UDim2.new(0, 200, 0, 40)
+label.Position = UDim2.new(0.45, 0, 0, 0)
+label.BackgroundTransparency = 1
+label.Text = "c00lkidd Executor"
+label.Font = Enum.Font.SourceSans
+label.TextColor3 = Color3.fromRGB(255, 255, 255)
+label.TextScaled = true
+label.TextWrapped = true
+
+clearBtn.MouseButton1Click:Connect(function()
+    scriptBox.Text = ""
+end)
+
+executeBtn.MouseButton1Click:Connect(function()
+    loadstring(scriptBox.Text)()
+end)
+
+resetBtn.MouseButton1Click:Connect(function()
+    local humanoid = game.Players.LocalPlayer.Character:FindFirstChild("Humanoid")
+    if humanoid then
+        humanoid.Health = 0
+    end
+end)
+
+autoFillBtn.MouseButton1Click:Connect(function()
+    scriptBox.Text = scriptBox.Text:gsub("%(%s*\"[^\"]-\"%s*%)", "(\"" .. game.Players.LocalPlayer.Name .. "\")")
+end)
+
+bodyTypeBtn.MouseButton1Click:Connect(function()
+    local popup = Instance.new("Frame", mainFrame)
+    popup.Name = "Popup"
+    popup.Size = UDim2.new(0, 300, 0, 150)
+    popup.Position = UDim2.new(0.3, 0, 0.3, 0)
+    popup.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+    popup.BackgroundTransparency = 0.7
+    popup.BorderColor3 = Color3.fromRGB(255, 0, 0)
+    popup.BorderSizePixel = 2
+    popup.ZIndex = 10
+
+    local message = Instance.new("TextLabel", popup)
+    message.Size = UDim2.new(0.9, 0, 0.6, 0)
+    message.Position = UDim2.new(0.05, 0, 0.2, 0)
+    message.BackgroundTransparency = 1
+    message.Font = Enum.Font.SourceSansBold
+    message.TextColor3 = Color3.fromRGB(255, 255, 255)
+    message.TextScaled = true
+    message.TextWrapped = true
+    message.Text = "Sorry, this feature no longer works.\nPlease change your avatar manually.\n(×_×)"
+
+    local closeBtn = Instance.new("TextButton", popup)
+    closeBtn.Size = UDim2.new(0, 25, 0, 25)
+    closeBtn.Position = UDim2.new(1, -30, 0, 5)
+    closeBtn.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+    closeBtn.Font = Enum.Font.SourceSansBold
+    closeBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+    closeBtn.Text = "X"
+    closeBtn.TextScaled = true
+    closeBtn.MouseButton1Click:Connect(function()
+        popup:Destroy()
+    end)
+end)
