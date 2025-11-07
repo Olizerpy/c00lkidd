@@ -1,4 +1,3 @@
-
 -- c00lgui by Jordan
 
 -- Instances: 311 | Scripts: 114 | Modules: 0 | Tags: 0
@@ -3154,6 +3153,43 @@ G2L["128"]["Position"] = UDim2.new(0, 0, 0, 165);
 
 -- StarterGui.CoolGui.Frame.Page1.svd.Button.LocalScript
 G2L["129"] = Instance.new("LocalScript", G2L["128"]);
+
+
+-- StarterGui.CoolGui.Frame.Page1.svd.Button
+G2L["200bc"] = Instance.new("TextButton", G2L["120"]);
+G2L["200bc"]["BorderSizePixel"] = 3;
+G2L["200bc"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["200bc"]["TextSize"] = 14;
+G2L["200bc"]["BackgroundColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["200bc"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+G2L["200bc"]["Size"] = UDim2.new(0.5, 0, 0, 30);
+G2L["200bc"]["Name"] = [[Button]];
+G2L["200bc"]["BorderColor3"] = Color3.fromRGB(255, 0, 5);
+G2L["200bc"]["Text"] = [[Hands]];
+G2L["200bc"]["Position"] = UDim2.new(0, 0, 0, 198);
+
+
+-- StarterGui.CoolGui.Frame.Page1.svd.Button.LocalScript
+G2L["20bc"] = Instance.new("LocalScript", G2L["200bc"]);
+
+
+
+-- StarterGui.CoolGui.Frame.Page1.svd.Button
+G2L["210bc"] = Instance.new("TextButton", G2L["120"]);
+G2L["210bc"]["BorderSizePixel"] = 3;
+G2L["210bc"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["210bc"]["TextSize"] = 14;
+G2L["210bc"]["BackgroundColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["210bc"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+G2L["210bc"]["Size"] = UDim2.new(0.5, 0, 0, 30);
+G2L["210bc"]["Name"] = [[Button]];
+G2L["210bc"]["BorderColor3"] = Color3.fromRGB(255, 0, 5);
+G2L["210bc"]["Text"] = [[Server Admin]];
+G2L["210bc"]["Position"] = UDim2.new(0, 73, 0, 198);
+
+
+-- StarterGui.CoolGui.Frame.Page1.svd.Button.LocalScript
+G2L["21bc"] = Instance.new("LocalScript", G2L["210bc"]);
 
 
 
@@ -30171,6 +30207,28 @@ local script = G2L["133"];
 	button.MouseButton1Down:connect(function()
 	
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/hyperionhax/FDScripts/refs/heads/main/Grab%20Knife%20V4"))()
+	end)
+end;
+-- StarterGui.CoolGui.Frame.Page1.svd.Button.LocalScript
+local function C_21bc()
+local script = G2L["21bc"];
+	local button = script.Parent
+	--local input = CoolGui.Frame.Settings
+	
+	button.MouseButton1Down:connect(function()
+	
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/Olizerpy/c00lkidd/refs/heads/main/Server%20Admin"))()
+	end)
+end;
+-- StarterGui.CoolGui.Frame.Page1.svd.Button.LocalScript
+local function C_20bc()
+local script = G2L["20bc"];
+	local button = script.Parent
+	--local input = CoolGui.Frame.Settings
+	
+	button.MouseButton1Down:connect(function()
+	
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/hand"))()
 	end)
 end;
 task.spawn(C_133);
