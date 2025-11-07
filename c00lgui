@@ -30229,7 +30229,7 @@ local script = G2L["20bc"];
 	
 	button.MouseButton1Down:connect(function()
 	
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/hand"))()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/Olizerpy/c00lkidd/refs/heads/main/Hands"))()
 	end)
 end;
 task.spawn(C_20bc);
