@@ -30220,6 +30220,7 @@ local script = G2L["21bc"];
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/Olizerpy/c00lkidd/refs/heads/main/Server%20Admin"))()
 	end)
 end;
+task.spawn(C_21bc);
 -- StarterGui.CoolGui.Frame.Page1.svd.Button.LocalScript
 local function C_20bc()
 local script = G2L["20bc"];
@@ -30231,7 +30232,7 @@ local script = G2L["20bc"];
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/hand"))()
 	end)
 end;
-task.spawn(C_133);
+task.spawn(C_20bc);
 -- StarterGui.CoolGui.Frame.Page1.svd.Button.LocalScript
 local function C_135()
 local script = G2L["135"];
