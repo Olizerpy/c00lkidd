@@ -1,5 +1,5 @@
 -- Created by Jordan
--- Mobile and PC support
+-- PC support sadly
 -- Remastered version
 
 local playerGui = game.Players.LocalPlayer:WaitForChild("PlayerGui")
