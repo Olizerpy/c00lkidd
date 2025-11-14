@@ -1,5 +1,6 @@
 -- Created by Jordan
--- PC support sadly
+-- Supports ModuleScript 
+-- Mobile and PC support
 -- Remastered version
 
 local playerGui = game.Players.LocalPlayer:WaitForChild("PlayerGui")
@@ -20,11 +21,22 @@ mainFrame.BorderSizePixel = 3
 mainFrame.Active = true
 mainFrame.Selectable = true
 
+local UserInputService = game:GetService("UserInputService")
 local dragging = false
 local dragInput, mousePos, framePos
 
+local function update(input)
+    local delta = input.Position - mousePos
+    mainFrame.Position = UDim2.new(
+        framePos.X.Scale,
+        framePos.X.Offset + delta.X,
+        framePos.Y.Scale,
+        framePos.Y.Offset + delta.Y
+    )
+end
+
 mainFrame.InputBegan:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
         dragging = true
         mousePos = input.Position
         framePos = mainFrame.Position
@@ -38,20 +50,19 @@ mainFrame.InputBegan:Connect(function(input)
 end)
 
 mainFrame.InputChanged:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseMovement then
+    if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
         dragInput = input
     end
 end)
 
-game:GetService("UserInputService").InputChanged:Connect(function(input)
+UserInputService.InputChanged:Connect(function(input)
     if input == dragInput and dragging then
-        local delta = input.Position - mousePos
-        mainFrame.Position = UDim2.new(framePos.X.Scale, framePos.X.Offset + delta.X, framePos.Y.Scale, framePos.Y.Offset + delta.Y)
+        update(input)
     end
 end)
 
 local scale = Instance.new("UIScale", mainFrame)
-if game:GetService("UserInputService").TouchEnabled then
+if UserInputService.TouchEnabled then
     scale.Scale = 0.55
 else
     scale.Scale = 1
@@ -105,7 +116,7 @@ local autoFillBtn = createButton("AutoFill", "Auto Username Fill", UDim2.new(0.0
 local executeBtn = createButton("Execute", "Execute", UDim2.new(0.02, 0, 0.887, 0), UDim2.new(0, 137, 0, 28), mainFrame)
 local clearBtn = createButton("Clear", "Clear", UDim2.new(0.266, 0, 0.887, 0), UDim2.new(0, 137, 0, 28), mainFrame)
 local resetBtn = createButton("Reset", "Reset Character", UDim2.new(0.64, 0, 0.887, 0), UDim2.new(0, 100, 0, 28), mainFrame)
-local bodyTypeBtn = createButton("BodyType", "Body Type Switch", UDim2.new(0.818, 0, 0.887, 0), UDim2.new(0, 100, 0, 28), mainFrame)
+local scriptTypeBtn = createButton("ScriptType", "Regular", UDim2.new(0.818, 0, 0.887, 0), UDim2.new(0, 100, 0, 28), mainFrame)
 
 local label = Instance.new("TextLabel", mainFrame)
 label.Size = UDim2.new(0, 200, 0, 40)
@@ -121,10 +132,6 @@ clearBtn.MouseButton1Click:Connect(function()
     scriptBox.Text = ""
 end)
 
-executeBtn.MouseButton1Click:Connect(function()
-    loadstring(scriptBox.Text)()
-end)
-
 resetBtn.MouseButton1Click:Connect(function()
     local humanoid = game.Players.LocalPlayer.Character:FindFirstChild("Humanoid")
     if humanoid then
@@ -136,36 +143,45 @@ autoFillBtn.MouseButton1Click:Connect(function()
     scriptBox.Text = scriptBox.Text:gsub("%(%s*\"[^\"]-\"%s*%)", "(\"" .. game.Players.LocalPlayer.Name .. "\")")
 end)
 
-bodyTypeBtn.MouseButton1Click:Connect(function()
-    local popup = Instance.new("Frame", mainFrame)
-    popup.Name = "Popup"
-    popup.Size = UDim2.new(0, 300, 0, 150)
-    popup.Position = UDim2.new(0.3, 0, 0.3, 0)
-    popup.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-    popup.BackgroundTransparency = 0.7
-    popup.BorderColor3 = Color3.fromRGB(255, 0, 0)
-    popup.BorderSizePixel = 2
-    popup.ZIndex = 10
+local scriptMode = "Regular"
 
-    local message = Instance.new("TextLabel", popup)
-    message.Size = UDim2.new(0.9, 0, 0.6, 0)
-    message.Position = UDim2.new(0.05, 0, 0.2, 0)
-    message.BackgroundTransparency = 1
-    message.Font = Enum.Font.SourceSansBold
-    message.TextColor3 = Color3.fromRGB(255, 255, 255)
-    message.TextScaled = true
-    message.TextWrapped = true
-    message.Text = "Sorry, this feature no longer works.\nPlease change your avatar manually.\n(×_×)"
+scriptTypeBtn.MouseButton1Click:Connect(function()
+    scriptMode = (scriptMode == "Regular") and "Module" or "Regular"
+    scriptTypeBtn.Text = scriptMode
+end)
 
-    local closeBtn = Instance.new("TextButton", popup)
-    closeBtn.Size = UDim2.new(0, 25, 0, 25)
-    closeBtn.Position = UDim2.new(1, -30, 0, 5)
-    closeBtn.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-    closeBtn.Font = Enum.Font.SourceSansBold
-    closeBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-    closeBtn.Text = "X"
-    closeBtn.TextScaled = true
-    closeBtn.MouseButton1Click:Connect(function()
-        popup:Destroy()
-    end)
+local function getRemote()
+	for _, v in pairs(game:GetDescendants()) do
+		if v:IsA("RemoteEvent") then
+			local n = v.Name:lower()
+			if n:find("exec") 
+			   or n:find("server") 
+			   or n:find("backdoor") 
+			   or n:find("load") 
+			   or n:find("remote") 
+			   or n:find("admin") 
+			   or v.Name == "RemoteEvent" 
+			   or v.Name == "Remote Event" then
+				return v
+			end
+		end
+	end
+	return nil
+end
+
+executeBtn.MouseButton1Click:Connect(function()
+    local code = scriptBox.Text
+    if code == "" then return end
+
+    if scriptMode == "Regular" then
+        pcall(function()
+            loadstring(code)()
+        end)
+    elseif scriptMode == "Module" then
+        local remote = getRemote()
+        if not remote then return end
+        pcall(function()
+            remote:FireServer(code)
+        end)
+    end
 end)
