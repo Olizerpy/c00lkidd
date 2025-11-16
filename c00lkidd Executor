@@ -1,5 +1,6 @@
 -- Created by Jordan
--- Supports ModuleScript 
+-- Supports ModuleScript
+-- Checks for FE
 -- Mobile and PC support
 -- Remastered version
 
@@ -185,3 +186,18 @@ executeBtn.MouseButton1Click:Connect(function()
         end)
     end
 end)
+
+local StarterGui = game:GetService("StarterGui")
+local function showNotification(message)
+	StarterGui:SetCore("SendNotification", {
+		Title = "c00lkidd Executor";
+		Text = message;
+		Duration = 1.5;
+	})
+end
+local isFilteringEnabled = game:GetService("Workspace").FilteringEnabled
+if isFilteringEnabled then
+	showNotification("Respect Filtering Enabled (RFE)")
+else
+	showNotification("Respect Filtering Disabled (RFD)")
+end
