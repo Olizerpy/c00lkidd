@@ -27,7 +27,7 @@ ck_banner.Parent = main_frame
 ck_banner.Position = UDim2.new(0.811, 0, 0.224, 0) -- {0.811, 0},{0.224, 0}
 ck_banner.Size = UDim2.new(0, 79, 0, 216) -- {0, 79},{0, 216}
 ck_banner.BorderSizePixel = 0
-ck_banner.Image = "http://www.roblox.com/asset/?id=433517918"
+ck_banner.Image = "http://www.roblox.com/asset/?id=140155130942333"
 
 current_page = Instance.new("IntValue")
 current_page.Name = "current_page"
