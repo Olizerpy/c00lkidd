@@ -197,7 +197,7 @@ local function showNotification(message)
 end
 local isFilteringEnabled = game:GetService("Workspace").FilteringEnabled
 if isFilteringEnabled then
-	showNotification("Respect Filtering Enabled (RFE)")
+	showNotification("Filtering Enabled (FE)")
 else
-	showNotification("Respect Filtering Disabled (RFD)")
+	showNotification("Filtering Disabled (FD)")
 end
