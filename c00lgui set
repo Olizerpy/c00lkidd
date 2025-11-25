@@ -2,4 +2,4 @@
 -- Both combinations of c00lgui and File Explorer
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Olizerpy/c00lkidd/refs/heads/main/c00lgui"))()
-loadstring(game:HttpGet("https://pastebin.com/raw/60NLrHV7"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Olizerpy/c00lkidd/refs/heads/main/File%20Explorer"))()
