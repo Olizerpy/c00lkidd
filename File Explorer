@@ -280,24 +280,33 @@ button_4.Parent = frame
 button_4.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 button_4.BorderColor3 = Color3.fromRGB(255, 0, 0)
 button_4.BorderSizePixel = 3
-button_4.Position = UDim2.new(0.75, 0, 0.100000001, 0)
+button_4.Position = UDim2.new(0.75, 0, 0.1, 0)
 button_4.Size = UDim2.new(0, 75, 0, 30)
 button_4.Font = Enum.Font.SourceSans
-button_4.Text = "Set Spam Text"
+button_4.Text = "Disco"
 button_4.TextColor3 = Color3.fromRGB(255, 255, 255)
-button_4.TextSize = 14.000
+button_4.TextSize = 14
 button_4.TextWrapped = true
-button_4.MouseButton1Down:connect(function()
-	while true do wait (1.5)
-		local args = {
-			[1] = (button_4.Parent.Parent.input.Text),
-			[2] = "All"
-		}
+button_4.MouseButton1Down:Connect(function()
+    local Lighting = game:GetService("Lighting")
+    local ColorCorrection = Instance.new("ColorCorrectionEffect")
+    ColorCorrection.Parent = Lighting
 
-		game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(unpack(args))
-	end
+    local function zigzag(x)
+        return math.acos(math.cos(x * math.pi)) / math.pi
+    end
 
+    local counter = 0
+    Lighting.TimeOfDay = "12:00"
+
+    while task.wait(0.1) do
+        local color = Color3.fromHSV(zigzag(counter), 1, 1)
+        ColorCorrection.TintColor = color
+        Lighting.Ambient = color
+        counter += 0.01
+    end
 end)
+
 button_5.Name = "button"
 button_5.Parent = frame
 button_5.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
